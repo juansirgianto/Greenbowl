@@ -14,7 +14,7 @@ initCarousel();
 const scene = new THREE.Scene();
 const overlayScene = new THREE.Scene();              // ★ scene terpisah untuk overlay (garis)
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 5);
-camera.position.set(1.57, 1.72, 0.21);
+camera.position.set(0.1, 2.03, 1.32);
 
 const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: false, powerPreference: 'high-performance' });
 scene.background = new THREE.Color(0x000000);
