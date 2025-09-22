@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Green Bowl</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+  </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+    <style>
+        body {
+            font-family: 'Work Sans', sans-serif;
+        }
+    
+        #thumbnailScroll::-webkit-scrollbar {
+            display: none;
+        }
+        #thumbnailScroll {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+    </style>
+<body>
+    <canvas id="webgl-canvas" class="absolute block top-0 lef-0 z-0"></canvas>
+
+<div class="absolute top-2 left-2 w-[200px] backdrop-blur-sm rounded-lg">
+    <img  src="logo.png" alt="">
+</div>
+
+<div class="absolute flex left-1/2 -translate-x-1/2 gap-5 top-2 bg-black/40 backdrop-blur-md py-2 px-4 text-white font-semibold rounded-xl">
+  <button id="btn-map" class="hover:text-gray-300">
+    Location
+  </button>
+  <div class="hover:text-gray-300">
+  <button class="galleryBtn" data-media='[{"type":"image","src":"https://res.cloudinary.com/doyr0s17x/image/upload/v1755737588/master1_fmoeq0.jpg"},
+     {"type":"image","src":"https://res.cloudinary.com/doyr0s17x/image/upload/v1755737536/master2_vf3q8a.jpg"},
+     {"type":"image","src":"https://res.cloudinary.com/doyr0s17x/image/upload/v1755737535/master3_abiwid.jpg"},
+     {"type":"image","src":"https://res.cloudinary.com/doyr0s17x/image/upload/v1755737579/master1-n_okrdqu.jpg"},
+     {"type":"image","src":"https://res.cloudinary.com/doyr0s17x/image/upload/v1755737526/master2-n_c17ywy.jpg"},
+     {"type":"image","src":"https://res.cloudinary.com/doyr0s17x/image/upload/v1755737528/master3-n_k0poeo.jpg"}]'>
+    Gallery
+  </button>
+  </div>
+  <div class="hover:text-gray-300">
+    <button class="galleryBtn"
+     data-media='[{"type":"video","src":"https://res.cloudinary.com/doyr0s17x/video/upload/v1755737943/backyard2_qmugz6.mp4","poster":"https://res.cloudinary.com/doyr0s17x/image/upload/v1755737557/back4_qlsqgl.jpg"}]'>
+    Video
+  </button>
+  </div>
+  <a href="" class="hover:text-gray-300">
+    Documents
+  </a>
+  <div class="relative">
+  <button id="btn-contact"
+          class="hover:text-gray-300 inline-flex items-center gap-1"
+          aria-haspopup="menu"
+          aria-expanded="false"
+          aria-controls="contact-menu">
+    Contact
+    <svg class="size-4 transition-transform" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+      <path d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z"/>
+    </svg>
+  </button>  
+</div>
+
+  <!-- Dropdown -->
+  <div id="contact-menu"
+       role="menu"
+       aria-labelledby="btn-contact"
+       class="absolute right-0 mt-8 w-full z-20
+              rounded-xl bg-black/80 text-sm text-white
+              shadow-lg !backdrop-blur-md p-2
+              invisible opacity-0 translate-y-1 pointer-events-none
+              transition-all duration-150 grid grid-cols-2 gap-2">
+    <a href="/contact" role="menuitem"
+        class="block px-3 py-2 rounded-lg hover:bg-white/10 focus:bg-white/10 focus:outline-none border">
+      Company Name
+    </a>
+    <a href="mailto:hello@yourdomain.com" role="menuitem"
+       class="block px-3 py-2 rounded-lg hover:bg-white/10 focus:bg-white/10 focus:outline-none border flex items-center gap-2">
+       <i data-lucide="mail"></i>
+      hello@yourdomain.com
+    </a>
+    <a href="https://wa.me/6281234567890" role="menuitem" target="_blank" rel="noopener"
+       class="block px-3 py-2 rounded-lg hover:bg-white/10 focus:bg-white/10 focus:outline-none border flex items-center gap-2">
+       <i data-lucide="message-circle-code"></i>
+      +62 812-3456-7890
+    </a>
+    <a href="tel:+6281234567890" role="menuitem"
+       class="block px-3 py-2 rounded-lg hover:bg-white/10 focus:bg-white/10 focus:outline-none border flex items-center gap-2">
+       <i data-lucide="phone"></i>
+      +62 812-3456-7890
+    </a>
+  </div>
+</div>
+
+<button id="btn-toggle-line" class="absolute right-2 top-2 bg-black/40 backdrop-blur-md p-2 rounded-xl text-white">
+  <i data-lucide="eye"></i>
+  <i data-lucide="eye-off"></i>
+</button>
+
+<div class="absolute right-2 bottom-2 bg-black/40 backdrop-blur-md p-4 rounded-xl font-medium text-white">
+  <h1 class="font-semibold mb-2 text-center border rounded-xl">Information</h1>
+  <div class="grid grid-cols-2 gap-2">
+  <h1>Landsize:</h1>
+  <h1 class="font-normal">--</h1>
+  <h1>Zoning:</h1>
+  <h1 class="font-normal">--</h1>
+  <h1>Status:</h1>
+  <h1 class="font-normal">Free hold</h1>
+  <h1>Price per are:</h1>
+  <h1 class="font-normal">--</h1>
+  <h1>Total price:</h1>
+  <h1 class="font-normal">--</h1>
+  </div>
+</div>
+
+<!-- Overlay untuk peta -->
+<div id="map-overlay" style="
+  position: fixed; inset: 0; z-index: 9; display: none; background: #000;
+">
+  <!-- Versi cepat: Google Maps embed (tanpa API key) -->
+  <iframe id="map-iframe" width="100%" height="100%" frameborder="0" style="border:0;"
+    referrerpolicy="no-referrer-when-downgrade"
+    src="https://www.google.com/maps?q=-8.846364,115.173017&z=9&hl=en&output=embed">
+  </iframe>
+  <button id="btn-close-map" class="bg-black/40 backdrop-blur-md text-white font-semibold absolute right-2 top-2 z-10 p-3 rounded-[8px] cursor-pointer">Close Map</button>
+</div>
+
+ <!-- Carousel Section -->
+    <div class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden" id="carouselWrapper">
+      <div class="relative w-auto max-w-[50%]" id="carouselWrap">
+        <!-- Carousel -->
+        <div class="relative flex items-center justify-center" id="carouselContainer">
+          <button id="prevBtn" class="relative left-2 bg-[#f5f4ea] hover:bg-[#1F8389] hover:text-[#f5f4ea] rounded-full p-2 z-10">
+            <i data-lucide="chevron-left"></i>
+          </button>
+
+          <img id="carouselImage" class="w-[800px] h-[600px] object-contain rounded-lg cursor-pointer" alt="Slide" />
+          <video preload="none" id="carouselVideo"
+          class="w-[800px] h-[600px] object-contain rounded-lg cursor-pointer hidden"
+          controls
+          playsinline
+          preload="metadata"></video>
+
+          <button id="nextBtn" class="relative right-2 bg-[#f5f4ea] hover:bg-[#1F8389] hover:text-[#f5f4ea] rounded-full p-2 z-10">
+            <i data-lucide="chevron-right"></i>
+          </button>
+        </div>
+        <div class="relative flex w-fit max-w-[90%] mx-auto mt-4 overflow-hidden">
+        <!-- Left Arrow -->
+        <button id="thumbLeft"
+          class="absolute left-0 top-1/2 -translate-y-1/2 bg-[#f5f4ea] hover:bg-[#1F8389] hover:text-[#f5f4ea] rounded-full p-1 shadow z-10">
+          <i data-lucide="chevron-left"></i>
+        </button>
+          <div id="thumbnailScroll" class="flex gap-2 overflow-x-auto scroll-smooth px-6 scrollbar-hide hidden">
+ 
+          </div>
+        <button id="thumbRight"
+          class="absolute right-0 top-1/2 -translate-y-1/2 bg-[#f5f4ea] hover:bg-[#1F8389] hover:text-[#f5f4ea] rounded-full p-1 shadow z-10">
+          <i data-lucide="chevron-right"></i>
+        </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div id="cam-info" class="absolute bottom-2 left-2 bg-black text-white text-xs px-2 py-1 rounded z-10"></div> -->
+  
+    <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

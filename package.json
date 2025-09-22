@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@mkkellogg/gaussian-splats-3d": "^0.4.7",
+    "three": "^0.179.1"
+  },
+  "devDependencies": {
+    "vite": "^7.1.3"
+  }
+}
