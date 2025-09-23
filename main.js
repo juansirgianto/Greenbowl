@@ -26,14 +26,15 @@ document.body.appendChild(renderer.domElement);
 
 // ===== Outline tebal (Line2) di overlayScene =====
 const verticesClosed = new Float32Array([
-  0.9, -0.2, -1.3,
-  1.5, -0.6,  0.34,
-  1,  -0.3, 1,
+  1.2, -0.3, -1.4,
+  1.9, -0.7,  0.15,
+  1.6, -0.6,  0.22,
+  1,  -0.4, 1,
   0,  0, 0.5,
   -2.5, 0.8, 0.1,
   -2.6, 0.8, -0.6,
   -0.15, 0.2, -0.80,
-  0.9, -0.2, -1.3,
+  1.2, -0.3, -1.4,
 ]);
 
 const lineGeo = new LineGeometry();
