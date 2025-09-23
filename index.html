@@ -210,9 +210,9 @@ function initMap() {
     center: bali,
     zoom: 9,
     gestureHandling: "greedy",
-    mapTypeControl: false,
+    mapTypeControl: true,
     fullscreenControl: false,
-    streetViewControl: false,
+    streetViewControl: true,
   });
   marker = new google.maps.Marker({ position: bali, map, title: "Bali" });
   inited = true;
