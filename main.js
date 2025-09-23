@@ -97,7 +97,7 @@ const WARMUP_MS = 3000;
 const warmUpEndAt = performance.now() + WARMUP_MS;
 
 // === UI elements
-const btnMap = document.getElementById('btn-map');
+const btnMap = document.getElementById('btn-open-map');
 const mapOverlay = document.getElementById('map-overlay');
 const btnCloseMap = document.getElementById('btn-close-map');
 
@@ -180,35 +180,70 @@ function animateCamera({ toPos, toTarget = null, toFov = null, duration = 1200 }
 }
 
 // === Orkestrasi: zoom-out lalu tampilkan peta
+// Asumsi variabel global yang sudah ada:
+// camera, controls, renderer, mapOverlay, needsRender
+// serta Google Maps globals: map, marker, inited, initMap()
+
 async function zoomOutAndShowMap() {
-  // Simpan state kalau perlu kembali lagi
+  // 1) Simpan state kamera (untuk kembali nanti)
   const saved = {
     pos: camera.position.clone(),
     target: controls.target.clone(),
     fov: camera.fov
   };
 
-  // Atur target zoom-out: agak mundur & tinggi supaya terasa “keluar”
-  // (Silakan sesuaikan agar terasa pas dengan scene kamu)
+  // 2) Animasi zoom-out
   const toPos = new THREE.Vector3(0, 5, 0);
   const toTarget = new THREE.Vector3(0, 0, 0);
-  const toFov = 75; // kecil = zoom out (default kamu 75, jadi ini tampak “menjauh”)
+  const toFov = 75;
 
-  controls.enabled = false; // kunci orbit selama animasi
+  controls.enabled = false;
   await animateCamera({ toPos, toTarget, toFov, duration: 1200 });
   controls.enabled = false;
 
-  // Fade-out scene 3D (opsional, sederhana: turunkan renderer opacity via CSS)
+  // 3) Fade canvas 3D (opsional)
   renderer.domElement.style.transition = 'opacity 300ms ease';
   renderer.domElement.style.opacity = '0.3';
 
-  // Tampilkan overlay peta
-  mapOverlay.style.display = 'block';
-  needsRender = true;
+  // 4) *** Pastikan Google Maps siap ***
+  //    - Jika script sudah load dan belum init, panggil initMap()
+  //    - Jika script belum siap, tunggu sampai window.google tersedia
+  if (!inited) {
+    if (window.google && google.maps) {
+      if (typeof initMap === 'function') initMap();
+    } else {
+      // tunggu sampai gmaps masuk (maks 3 detik)
+      await new Promise((resolve) => {
+        let waited = 0;
+        const interval = setInterval(() => {
+          if (window.google && google.maps) {
+            clearInterval(interval);
+            if (!inited && typeof initMap === 'function') initMap();
+            resolve();
+          } else if ((waited += 50) >= 3000) {
+            clearInterval(interval);
+            resolve(); // lanjut saja; kalau gagal, console akan kasih error key
+          }
+        }, 50);
+      });
+    }
+  }
 
-  // Simpan ke global jika mau dipakai untuk “kembali”
+  // 5) Tampilkan overlay peta
+  mapOverlay.style.display = 'block';
+
+  // 6) Paksa re-layout setelah visible (wajib jika sebelumnya display:none)
+  if (inited && map) {
+    const center = map.getCenter();
+    google.maps.event.trigger(map, 'resize');
+    map.setCenter(center);
+  }
+
+  // 7) Simpan state untuk kembali
   window.__savedView = saved;
+  needsRender = true;
 }
+
 
 // === Orkestrasi: tutup peta & kembalikan kamera
 async function hideMapAndReturn() {
