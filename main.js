@@ -14,7 +14,7 @@ initCarousel();
 const scene = new THREE.Scene();
 const overlayScene = new THREE.Scene();              // ★ scene terpisah untuk overlay (garis)
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 5);
-camera.position.set(0.1, 2.03, 1.32);
+camera.position.set(1.57, 1.72, 0.21);
 
 const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: false, powerPreference: 'high-performance' });
 scene.background = new THREE.Color(0x000000);
@@ -103,6 +103,7 @@ const btnCloseMap = document.getElementById('btn-close-map');
 
 // === Toggle garis (outline) ===
 const toggleBtn = document.getElementById('btn-toggle-line');
+const infoBox = document.getElementById('info-box');
 if (toggleBtn) {
   const iconEye = toggleBtn.querySelector('[data-lucide="eye"]');
   const iconEyeOff = toggleBtn.querySelector('[data-lucide="eye-off"]');
@@ -113,6 +114,14 @@ if (toggleBtn) {
 
   toggleBtn.addEventListener('click', () => {
     fatLine.visible = !fatLine.visible;
+
+    // Sekalian toggle info box
+    if (infoBox) {
+      // kalau line kelihatan, info juga kelihatan
+      infoBox.style.display = fatLine.visible ? 'block' : 'none';
+      // Atau kalau pakai Tailwind lebih rapi:
+      // infoBox.classList.toggle('hidden', !fatLine.visible);
+    }
 
     // Toggle icon
     const isVisible = fatLine.visible;
